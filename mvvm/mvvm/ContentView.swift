@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(VistaModeloBasico.self) private var controlador
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        if controlador.estado_actual_de_la_aplicacion == .mostrando_series{
+            MenuPrincipalSeries()
+                    }
+        else {
+            AgregarSerie()
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
+        .environment(VistaModeloBasico())
 }
