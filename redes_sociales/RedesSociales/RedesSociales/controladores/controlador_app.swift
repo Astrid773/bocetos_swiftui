@@ -11,8 +11,10 @@ import SwiftUI
 @MainActor
 public class ControladorAplicacion {
     var publicaciones: Array<Publicacion> = []
+    var comentarios: Array<Comentario> = []
     
-    var publicacion_seleccionada: Int = -1
+    var publicacion_seleccionada: Publicacion? = nil
+    var perfil_a_mostrar: Perfil? = nil
     
     init() {
         Task.detached(priority: .high) {
@@ -32,13 +34,28 @@ public class ControladorAplicacion {
         defer{
             print("Esta funcion se mando a llamar despues de todos los awaits en mi funcion \(#function)")
         }
-        guard let publicaciones_descargadas: [Publicacion] = try? await PlaceHolderAPI().descargar_publicaciones() else {return}
+        guard let comentarios_descargadas: [Comentario] = try? await PlaceHolderAPI().descargar_comentarios(post_id: self._publicacion_seleccionada!.id) else {return}
         
-        publicaciones = publicaciones_descargadas
+        comentarios = comentarios_descargadas
     }
-
     
-    func descargar_comentarios() async {
+    
+    func seleccionar_publicacion(_ publicacion: Publicacion) -> Void {
+        publicacion_seleccionada = publicacion
         
+        Task.detached(operation: {
+            await self.descargar_comentarios()
+        })
+        
+    }
+    func descargar_perfil(id: Int) async -> Void {
+        guard let perfil: Perfil = try? await PlaceHolderAPI().descargar_perfil(id: id) else { return }
+        perfil_a_mostrar = perfil
+        
+    }
+    func ver_perfil(id: Int) -> Void {
+        Task.detached {
+            await self.descargar_perfil(id: id)
+        }
     }
 }

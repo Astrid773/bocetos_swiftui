@@ -21,9 +21,14 @@ class PlaceHolderAPI: Codable {
         return await descargar(recurso: ubicacion_recurso)
     }
     
-    func descargar<TipoGenerico: Codable>(recurso: String) async throws -> TipoGenerico? {
+    func descargar_perfil(id: Int) async -> Perfil? {
+        let ubicacion_recurso = "/users/\(id)/"
+        return await descargar(recurso: ubicacion_recurso)
+    }
+    
+    private func descargar<TipoGenerico: Codable>(recurso: String) async -> TipoGenerico? {
         do {
-            guard let url = URL(string: "\(url_de_servicio)\(recurso)") else {throw ErroresDeRed.malaDireccionUrl}
+            guard let url = URL(string: "\(url_de_servicio)\(recurso)") else {throw ErroresDeRed.badUrl}
             let (datos, respuesta) = try await URLSession.shared.data(from: url)
             guard let respuesta = respuesta as? HTTPURLResponse else {throw ErroresDeRed.badResponse}
             guard respuesta.statusCode >= 200 && respuesta.statusCode < 300 else {throw ErroresDeRed.badStatus}
@@ -32,7 +37,7 @@ class PlaceHolderAPI: Codable {
             
             return respuesta_decodificada
         }
-        catch ErroresDeRed.malaDireccionUrl {
+        catch ErroresDeRed.badUrl {
             print("Tener mal la url capo, cambiala")
         }
         catch ErroresDeRed.badResponse {

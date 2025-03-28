@@ -6,12 +6,14 @@
 //
 import SwiftUI
 
-class ControladorPublicaciones: ObservableObject {
-    @Published var publicaciones: [Publicacion] = []
-    
-    let url_de_publicaciones = "https://jsonplaceholder.typicode.com/posts"
-    
-    func obtener_publicaciones() async {
-        
-    }
-}
+/*
+ class ControladorPublicaciones: ObservableObject {
+ @Published var publicaciones: [Publicacion] = []
+ 
+ let url_de_publicaciones = "https://jsonplaceholder.typicode.com/posts"
+ 
+ func obtener_publicaciones() async {
+ 
+ }
+ }
+ */

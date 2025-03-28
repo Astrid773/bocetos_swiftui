@@ -6,7 +6,7 @@
 //
 
 enum ErroresDeRed: Error{
-    case malaDireccionUrl
+    case badUrl
     case invalidRequest
     case badResponse
     case badStatus
