@@ -12,10 +12,10 @@ struct GeneralPublicaciones: View {
     @Environment(ControladorAplicacion.self) var controlador
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack{
-                    ForEach(controlador.publicaciones) { publicacion in
+            NavigationStack {
+                ScrollView {
+                    VStack{
+                        ForEach(controlador.publicaciones) { publicacion in
                         NavigationLink {
                             PublicacionVista()
                         } label : {
@@ -31,9 +31,12 @@ struct GeneralPublicaciones: View {
                         }))
                     }
                 }
+                .background(LinearGradient(
+                    gradient: Gradient(colors: [.clear, .lila]),
+                    startPoint: .top, endPoint: .bottom))
             }
             .onAppear {
-                print("Hola mundo")
+                    print("Hola mundo")
             }
         }
     }
