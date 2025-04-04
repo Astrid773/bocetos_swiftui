@@ -17,10 +17,11 @@ struct MenuNavegacion: View {
                 .tabItem{Label("Es esta pantalla", systemImage: "")}
                 .badge(controlador.publicaciones.count)
             
-            Text("Hola dos")
+            PantallaPersonajes()
                 .tabItem{
                     Label{
                         Text("DragonBall DB")
+                        
                     }icon: {
                         Circle()
                             //.fill(person.profileColor)

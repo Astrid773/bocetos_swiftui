@@ -20,12 +20,19 @@ class DragonballAPI: Codable {
             guard let url = URL(string: "\(url_base)\(recurso)") else {throw ErroresDeRed.badUrl}
             let (datos, respuesta) = try await URLSession.shared.data(from: url)
             guard let respuesta = respuesta as? HTTPURLResponse else {throw ErroresDeRed.badResponse}
-            guard respuesta.statusCode >= 200 && respuesta.statusCode < 300 else {throw ErroresDeRed.badStatus}
-            guard let respuesta_decodificada = try? JSONDecoder().decode(TipoGenerico.self, from: datos) else {throw ErroresDeRed.fallaAlConvertirLaRespuesta
+            guard respuesta.statusCode >= 200 && respuesta.statusCode < 300 else { throw ErroresDeRed.badStatus}
+            do{
+            let respuesta_decodificada = try JSONDecoder().decode(TipoGenerico.self, from: datos)
+                
+                return respuesta_decodificada
             }
-            
-            return respuesta_decodificada
+            catch let error as NSError{
+                    print("EL ERROR EN TU MODELO ES:\(error.debugDescription)")
+                throw ErroresDeRed.fallaAlConvertirLaRespuesta
+                }
+            //return respuesta_decodificada
         }
+            
         catch ErroresDeRed.badUrl {
             print("Tener mal la url capo, cambiala")
         }
