@@ -7,15 +7,17 @@
 
 import SwiftUI
 
-//let backgroundGradient = LinearGradient(
-    //colors: [Color.clear, Color.mint],
-    //startPoint: .top, endPoint: .bottom)
+let backgroundGradient0 = LinearGradient(
+    colors: [Color.clear, Color.mint],
+    startPoint: .top, endPoint: .bottom)
 
 struct PersonajeFoto: View {
     @Environment(ControladorAplicacion.self) var controlador
     
     var body: some View {
         NavigationStack{
+            ZStack{
+            backgroundGradient0
             if(controlador.pagina_resultados != nil) {
                 ScrollView{
                     VStack{
@@ -41,19 +43,18 @@ struct PersonajeFoto: View {
                     }
                 }
             }
-        }.onAppear{
-            Task{
-                await controlador.descargar_monos_chinos()
+            }.onAppear{
+                Task{
+                    await controlador.descargar_monos_chinos()
+                }
             }
         }
     }
 }
     
 #Preview {
-    NavigationStack{
-        PersonajeFoto()
-            .environment(ControladorAplicacion())
-    }
+    PersonajeFoto()
+        .environment(ControladorAplicacion())
 }
 
 /*
