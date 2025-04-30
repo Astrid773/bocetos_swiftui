@@ -45,9 +45,9 @@ struct PublicacionVista: View {
     }
 }
 
-    #Preview {
-        NavigationStack{
-            PublicacionVista()
-                .environment(ControladorAplicacion())
-        }
+#Preview {
+    NavigationStack{
+        PublicacionVista()
+            .environment(ControladorAplicacion())
     }
+}

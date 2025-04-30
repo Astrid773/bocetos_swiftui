@@ -17,21 +17,23 @@ public class ControladorAplicacion {
     var perfil_a_mostrar: Perfil? = nil
     
     //Seccion Dragon ball
-    var pagina_resultados: PaginaResultados? = nil
+    var pagina_resultados: PaginaResultado? = nil
+    var personajes: Array<MonoChino> = []
+    var personaje: MonoChino? = nil
+    
+    //Seccion Planeta
+    var pagina_resultados_planetas: PaginaResultadoPlaneta? = nil
+    var planetas: Array<Planeta> = []
+    var mundo: Planeta? = nil
     
     init() {
         Task.detached(priority: .high) {
             await self.descargar_publicaciones()
             
-            await self.descargar_monos_chinos()
+            //await self.descargar_monos_chinos()
         }
     }
     
-    func descargar_monos_chinos() async {
-        guard let pagina_descargada: PaginaResultados = try? await DragonballAPI().descargar_pagina_personajes() else {return}
-                
-        self.pagina_resultados = pagina_descargada
-    }
     func descargar_publicaciones() async {
         defer{
             print("Esta funcion se mando a llamar despues de todos los awaits en mi funcion \(#function)")
@@ -69,4 +71,43 @@ public class ControladorAplicacion {
             await self.descargar_perfil(id: id)
         }
     }
+        
+    func descargar_monos_chinos() async {
+        guard let pagina_descargada: PaginaResultado = try? await DragonballAPI().descargar_pagina_personajes() else {return}
+        
+        self.pagina_resultados = pagina_descargada
+        }
+    
+    func descargar_info_personaje(id: Int) async{
+        guard let mono_chino: MonoChino = try? await DragonballAPI().descargar_informacion_personaje(id: id) else {return}
+        
+        self.personaje = mono_chino
+    }
+    /*MINE*/
+    func descargar_planetas() async {
+        guard let pagina_descargada_p: PaginaResultadoPlaneta = try? await DragonballAPI().descargar_pagina_planetas() else {return}
+        
+        self.pagina_resultados_planetas = pagina_descargada_p
+    }
+    
+    func descargar_info_planeta(id: Int) async{
+        guard let planeta: Planeta = try? await DragonballAPI().descargar_informacion_planeta(id: id) else {return}
+        
+        self.mundo = planeta
+    }
+    /*MINE...*/
+    
+    func descargar_informacion_personaje(id: Int) {
+        Task.detached(operation: {
+            await self.descargar_info_personaje(id: id)
+        })
+    }
+    
+    /*MINE*/
+    func descargar_informacion_planeta(id: Int) {
+        Task.detached(operation: {
+            await self.descargar_info_planeta(id: id)
+        })
+    }
+    /*MINE...*/
 }
