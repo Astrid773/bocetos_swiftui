@@ -25,14 +25,26 @@ struct PersonajeFoto: View {
                             NavigationLink {
                                 PantallaPersonajes()
                             } label: {
-                                Text("El personaje es \(personaje.name)")
-                                VStack{
-                                    AsyncImage(url: URL(string: personaje.image)) { image in
-                                        image
-                                            .image?.resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .clipped()
-                                            .background(Color.blue)
+                                VStack(alignment: .center){
+                                    Text("El personaje es \(personaje.name)")
+                                        .fontWeight(.black)
+                                        .fontWidth(.expanded)
+                                        .padding(7)
+                                        .foregroundStyle(LinearGradient(
+                                            gradient: Gradient(colors: [.indigo, .lila]),
+                                            startPoint: .top, endPoint: .bottom))
+                                    
+                                    VStack{
+                                        AsyncImage(url: URL(string: personaje.image)) { image in
+                                            image
+                                                .image?.resizable().frame(width: 300, height: 600)
+                                                .aspectRatio(contentMode: .fill)
+                                                .clipShape(Rectangle())
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius:16)
+                                                        .stroke(.black, lineWidth: 3)
+                                                )
+                                        }
                                     }
                                 }
                             }.simultaneousGesture(TapGesture().onEnded({

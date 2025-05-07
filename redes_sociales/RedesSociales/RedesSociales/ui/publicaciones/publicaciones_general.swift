@@ -31,9 +31,9 @@ struct GeneralPublicaciones: View {
                         }))
                     }
                 }
-                .background(LinearGradient(
-                    gradient: Gradient(colors: [.clear, .lila]),
-                    startPoint: .top, endPoint: .bottom))
+                    .background(LinearGradient(
+                        gradient: Gradient(colors: [.clear, .lila]),
+                        startPoint: .top, endPoint: .bottom))
             }
             .onAppear {
                     print("Hola mundo")

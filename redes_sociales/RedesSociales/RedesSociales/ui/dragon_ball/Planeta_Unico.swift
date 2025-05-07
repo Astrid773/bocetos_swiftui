@@ -1,34 +1,30 @@
 //
-//  PantallaPersonajes.swift
+//  Planeta_Unico.swift
 //  RedesSociales
 //
-//  Created by Astrid C. Sanchez L. on 4/4/25.
+//  Created by Astrid C. Sanchez L. on 5/2/25.
 //
 
 import SwiftUI
 
-let backgroundGradient2 = LinearGradient(
-    colors: [Color.indigo, Color.clear],
-    startPoint: .top, endPoint: .bottom)
-
-struct PantallaPersonajes: View {
+struct PlanetaUnico: View {
     @Environment(ControladorAplicacion.self) var controlador
     
     var body: some View{
         ZStack{
             backgroundGradient2
             VStack{
-                Text("\(controlador.personaje?.name ?? "Valor por defecto")")
+                Text("\(controlador.mundo?.name ?? "Valor por defecto")")
                     .fontWeight(.black)
                     .fontWidth(.expanded)
                     .padding(7)
                     .foregroundStyle(.black)
-                Text("\(controlador.personaje?.race ?? "Valor por defecto")")
+                Text("\(controlador.mundo?.image ?? "Valor por defecto")")
                     .fontWeight(.black)
                     .fontWidth(.expanded)
                     .padding(7)
                     .foregroundStyle(.black)
-                Text("\(controlador.personaje?.description ?? "Valor por defecto")")
+                Text("\(controlador.mundo?.description ?? "Valor por defecto")")
                     .fontWeight(.black)
                     .fontWidth(.expanded)
                     .padding(7)
@@ -36,7 +32,7 @@ struct PantallaPersonajes: View {
                         gradient: Gradient(colors: [.black, .mint]),
                         startPoint: .top, endPoint: .bottom))
                 NavigationLink{
-                    PantallaPlanetas()
+                    PersonajeFoto()
                 } label: {
                     Text("Ver planeta")
                         .fontWeight(.black)
@@ -57,7 +53,8 @@ struct PantallaPersonajes: View {
 
 #Preview {
     NavigationStack{
-        PantallaPersonajes()
+        PlanetaUnico()
             .environment(ControladorAplicacion())
     }
 }
+

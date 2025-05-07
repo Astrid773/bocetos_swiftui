@@ -23,26 +23,59 @@ struct PantallaPlanetas: View {
                         VStack{
                             ForEach(controlador.pagina_resultados_planetas!.items) { planeta in
                                 NavigationLink{
-                                    PersonajeFoto()
+                                    PlanetaUnico()
                                 } label: {
-                                    Text("El planeta es \(planeta.name)")
-                                    VStack{
-                                        AsyncImage(url: URL(string: planeta.image)) { image in
-                                            image
-                                                .image?.resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .clipped()
-                                                .background(Color.black)
-                                        }.simultaneousGesture(TapGesture().onEnded({
-                                            controlador.descargar_informacion_planeta(id: planeta.id)
-                                        }))
+                                    VStack(alignment: .center){
+                                        Text("El planeta es \(planeta.name)")
+                                            .fontWeight(.black)
+                                            .fontWidth(.expanded)
+                                            .padding(7)
+                                            .foregroundStyle(LinearGradient(
+                                                gradient: Gradient(colors: [.lila, .black]),
+                                                startPoint: .top, endPoint: .bottom))
+                                        
+                                        VStack{
+                                            AsyncImage(url: URL(string: planeta.image)) { image in
+                                                image
+                                                    .image?.resizable().frame(width: 300, height: 300)
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .clipShape(Rectangle())
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius:10)
+                                                            .stroke(.menta, lineWidth: 10)
+                                                    )
+                                            }.shadow(color: Color.black, radius:10, x:5, y:5)
+                                                .simultaneousGesture(TapGesture().onEnded({
+                                                    controlador.descargar_informacion_planeta(id: planeta.id)
+                                                }))
+                                            VStack{
+                                                //Text("\(controlador.mundo?.description ?? "Valor por defecto")")
+                                                Text("Esta destruido? \(planeta.isDestroyed)")
+                                                    .fontWeight(.black)
+                                                    .fontWidth(.compressed)
+                                                    .padding(20)
+                                                    .foregroundStyle(LinearGradient(
+                                                        gradient: Gradient(colors: [.menta, .white]),
+                                                        startPoint: .top, endPoint: .bottom))
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .clipShape(Rectangle())
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius:4)
+                                                            .stroke(.indigo, lineWidth: 4)
+                                                    )
+                                                    .padding(30)
+                                                    .shadow(color: Color.black, radius:10, x:5, y:5)
+                                                backgroundGradient3
+                                            }
+                                            .background(Color.black)
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-                Text("gg ez")
+                Text("")
                     .onAppear{
                         Task{
                             await controlador.descargar_planetas()
